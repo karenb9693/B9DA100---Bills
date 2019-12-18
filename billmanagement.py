@@ -31,14 +31,15 @@ def get_value_CredDeb(bills):
    #df.groupby([6]).sum()[5]
    #print(df)
     
-    for bill in bills:
-        cred = 0.0
-        deb = 0.0
-        if bill[6] == "credit":
-            cred = bill[5] + cred
-        elif bills[6] == "debit":
-            deb = bills[5] + deb
-        print(cred)
+   for bill in bills:
+       list2 = list()
+       list3 = list()
+       if bill[6] == "credit":
+           list2.append(float(bill[5]))
+       elif bills[6] == "debit":
+           list3.append(float(bill[5]))
+   print("total value of credit is:", sum(list2))
+   print("total value of debit is:", sum(list3))
 
 def display_menu():
     print(get_message())
@@ -48,8 +49,7 @@ def get_Companies(bills):
     list1 = list()
     for bill in bills:
         list1.append(bill[0])
-    c = Counter((word for word in list1 if word[:1].isupper()))
-    print("Most popular company, count:", c.most_common(1))
+    print(Counter(list1).most_common(1))
 
 def view_bills(bills):
     for bill in bills:
