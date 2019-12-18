@@ -15,41 +15,44 @@ def get_message():
         '1: View Bills\n2: Insert a Bill\n3: Reports\n4: T&Cs\n5: Exit'
 
 #Function for getting the most popular company
-def get_topComp(bills):
-    for bill in bills:
-        df = pd.DataFrame(bills[0])
-        df[0].value_counts().argmax()
+#def get_topComp(bills):
+ #   for bill in bills:
+  #      df = pd.DataFrame(bills[0])
+   #     df[0].value_counts().argmax()
         #use mode to return the most common company
-        print(df.mode)
+      #  print(df.mode)
         
 #Function for getting the cred and debit total       
 def get_value_CredDeb(bills):
-   #df = pd.DataFrame(bills)
-   #df.rename(columns={[0]:"Company", [1]: "Account Name", [2]:"Year",[3]:"Month",[4]: "Day", [5]:"Value", [6]:"Type"}, 
-              #   inplace=True)
-            
-   #df.groupby([6]).sum()[5]
-   #print(df)
-    
-   for bill in bills:
-       list2 = list()
-       list3 = list()
-       if bill[6] == "credit":
-           list2.append(float(bill[5]))
-       elif bills[6] == "debit":
-           list3.append(float(bill[5]))
-   print("total value of credit is:", sum(list2))
-   print("total value of debit is:", sum(list3))
+   df = pd.DataFrame(bills)
+   df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
+   print("The largest value of a credit/debit bill is:", df.groupby('Type')['Value'].max())
+   
+def get_creddeb_year(bills):
+   df = pd.DataFrame(bills)
+   df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
+  
+    ##Need to change the value column from list/text to float so sum actually provides number output
+   
+   print("The value of Debit and Credit per year", df.groupby(['Type','Year'])['Value'].sum())
 
 def display_menu():
     print(get_message())
+    
+def display_info(bills):
+   df = pd.DataFrame(bills)
+   df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
+   print()
+   print("The amount of bills listed is:", df['Company'].count())
+   print("The number of unique companies are:", df['Company'].nunique())
 
 #Function to print comopany with most amount of bills
 def get_Companies(bills):
     list1 = list()
     for bill in bills:
         list1.append(bill[0])
-    print(Counter(list1).most_common(1))
+    print()
+    print("The company with the most amount of bills is:", Counter(list1).most_common(1))
 
 def view_bills(bills):
     for bill in bills:
@@ -64,7 +67,10 @@ def process_choice(bills):
             print("you can insert a new bill here:")
             write_bills(bills)
         elif choice == '3':
+            get_value_CredDeb(bills)
             get_Companies(bills)
+            display_info(bills)
+            get_creddeb_year(bills)
         elif choice == '4':
             print('The terms of the billing management company are:')
         choice = input('Please enter an option:')
