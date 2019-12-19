@@ -6,7 +6,6 @@ def read_bills():
     return [[col.strip() for col in row.strip().split(',')]
              for row in open('bills1.csv') if len(row) > 1]
     
-#def get_pd_dataframe(bills):
 
 def write_bills(bills):
     bill_file = open('bills.csv', 'w')
@@ -16,6 +15,10 @@ def write_bills(bills):
 def get_message():
     return 'Hello, Welcome to the Bill Management Company\n' + \
         '1: View Bills\n2: Insert a Bill\n3: Reports\n4: T&Cs\n5: Exit'
+
+def get_submenu_message():
+    return 'The report options are as follows:' + \
+    '\nx: to go back to main menu\na: information about dataset\nb: credit vs debit \nc: companies'
 
 #Function for getting the most popular company
 #def get_topComp(bills):
@@ -39,6 +42,9 @@ def get_creddeb_year(bills):
 
 def display_menu():
     print(get_message())
+    
+def display_submenu():
+    print(get_submenu_message())
     
 def display_info(bills):
    df = pd.DataFrame(bills)
@@ -67,10 +73,22 @@ def process_choice(bills):
             print("you can insert a new bill here:")
             write_bills(bills)
         elif choice == '3':
-            get_value_CredDeb(bills)
-            get_Companies(bills)
-            display_info(bills)
-            get_creddeb_year(bills)
+            display_submenu()
+            choice2 = input('Please select requested report:')
+            while choice2 != 'x':
+                if choice2 == 'a':
+                    print('Information about companies and the amount of bills in the dataset')
+                    display_info(bills)
+                    break
+                elif choice2 == 'b':
+                    print('Information regarding credit vs debit')
+                    get_value_CredDeb(bills)
+                    get_creddeb_year(bills)
+                    break
+                elif choice2 == 'c':
+                    get_Companies(bills)
+                    break
+            choice2 = input('Please select requested report:')
         elif choice == '4':
             print('The terms of the billing management company are:')
         choice = input('Please enter an option:')
