@@ -1,9 +1,12 @@
+
 import pandas as pd 
 from collections import Counter
 
 def read_bills():
     return [[col.strip() for col in row.strip().split(',')]
-             for row in open('bills.csv') if len(row) > 1]
+             for row in open('bills1.csv') if len(row) > 1]
+    
+#def get_pd_dataframe(bills):
 
 def write_bills(bills):
     bill_file = open('bills.csv', 'w')
@@ -31,9 +34,7 @@ def get_value_CredDeb(bills):
 def get_creddeb_year(bills):
    df = pd.DataFrame(bills)
    df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
-  
-    ##Need to change the value column from list/text to float so sum actually provides number output
-   
+   df["Value"] = pd.to_numeric(df["Value"])
    print("The value of Debit and Credit per year", df.groupby(['Type','Year'])['Value'].sum())
 
 def display_menu():
@@ -42,7 +43,6 @@ def display_menu():
 def display_info(bills):
    df = pd.DataFrame(bills)
    df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
-   print()
    print("The amount of bills listed is:", df['Company'].count())
    print("The number of unique companies are:", df['Company'].nunique())
 
@@ -83,3 +83,4 @@ def main():
     
 if __name__ == '__main__':
     main()
+
