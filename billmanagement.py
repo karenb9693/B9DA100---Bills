@@ -5,7 +5,6 @@ from collections import Counter
 def read_bills():
     return [[col.strip() for col in row.strip().split(',')]
              for row in open('bills1.csv') if len(row) > 1]
-    
 
 def write_bills(bills):
     bill_file = open('bills.csv', 'w')
@@ -14,31 +13,23 @@ def write_bills(bills):
 
 def get_message():
     return 'Hello, Welcome to the Bill Management Company\n' + \
-        '1: View Bills\n2: Insert a Bill\n3: Reports\n4: T&Cs\n5: Exit'
+        '1: View Bills\n2: Insert a Bill\n3: Reports\n4: T&Cs\nx: Exit'
 
 def get_submenu_message():
     return 'The report options are as follows:' + \
     '\nx: to go back to main menu\na: information about dataset\nb: credit vs debit \nc: companies'
-
-#Function for getting the most popular company
-#def get_topComp(bills):
- #   for bill in bills:
-  #      df = pd.DataFrame(bills[0])
-   #     df[0].value_counts().argmax()
-        #use mode to return the most common company
-      #  print(df.mode)
         
 #Function for getting the cred and debit total       
 def get_value_CredDeb(bills):
    df = pd.DataFrame(bills)
    df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
-   print("The largest value of a credit/debit bill is:", df.groupby('Type')['Value'].max())
+   print(df.groupby('Type')['Value'].max())
    
 def get_creddeb_year(bills):
    df = pd.DataFrame(bills)
    df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
    df["Value"] = pd.to_numeric(df["Value"])
-   print("The value of Debit and Credit per year", df.groupby(['Type','Year'])['Value'].sum())
+   print(df.groupby(['Type','Year'])['Value'].sum())
 
 def display_menu():
     print(get_message())
@@ -46,19 +37,28 @@ def display_menu():
 def display_submenu():
     print(get_submenu_message())
     
-def display_info(bills):
+def display_unique_companies(bills):
    df = pd.DataFrame(bills)
    df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
-   print("The amount of bills listed is:", df['Company'].count())
-   print("The number of unique companies are:", df['Company'].nunique())
+   print(df['Company'].nunique())
+
+def display_bill_count(bills):
+   df = pd.DataFrame(bills)
+   df.columns = ["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"]
+   print(df['Company'].count())
 
 #Function to print comopany with most amount of bills
 def get_Companies(bills):
     list1 = list()
     for bill in bills:
         list1.append(bill[0])
-    print()
-    print("The company with the most amount of bills is:", Counter(list1).most_common(1))
+    print(Counter(list1).most_common(1))
+
+def get_bills_forall_Companies(bills):
+    list1 = list()
+    for bill in bills:
+        list1.append(bill[0])
+    print(Counter(list1).most_common(100))
 
 def view_bills(bills):
     for bill in bills:
@@ -66,7 +66,7 @@ def view_bills(bills):
     
 def process_choice(bills):
     choice = input('Please enter an option:')
-    while choice != '5':
+    while choice != 'x':
         if choice == '1':
             view_bills(bills)
         elif choice == '2':
@@ -77,18 +77,23 @@ def process_choice(bills):
             choice2 = input('Please select requested report:')
             while choice2 != 'x':
                 if choice2 == 'a':
-                    print('Information about companies and the amount of bills in the dataset')
-                    display_info(bills)
+                    print('# of bills in file')
+                    display_bill_count(bills)
+                    print('# of unique companies')
+                    display_unique_companies(bills)
                     break
                 elif choice2 == 'b':
-                    print('Information regarding credit vs debit')
+                    print('The largest value of credit and debit bills is as follows:')
                     get_value_CredDeb(bills)
+                    print('Value of credit and debit per year is:')
                     get_creddeb_year(bills)
                     break
                 elif choice2 == 'c':
+                    print('most popular company is:')
                     get_Companies(bills)
+                    print('Count of bills for all companies is as follows:')
+                    get_bills_forall_Companies(bills)
                     break
-            choice2 = input('Please select requested report:')
         elif choice == '4':
             print('The terms of the billing management company are:')
         choice = input('Please enter an option:')
