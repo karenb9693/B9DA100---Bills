@@ -21,7 +21,7 @@ def get_message():
 
 def get_submenu_message():
     return 'The report options are as follows:' + \
-    '\nx: to go back to main menu\na: information about dataset\nb: credit vs debit \nc: companies \nd: bills sorted'
+    '\nx: to go back to main menu\na: information about dataset\nb: credit vs debit \nc: companies \nd: bills sorted \ne average time between bills'
         
 #Function for getting the cred and debit total       
 def get_value_CredDeb(bills):
@@ -53,10 +53,13 @@ def get_bills_forall_Companies(bills):
     print('Count of bills for all companies is as follows:', Counter(bills['Company']).most_common(100))
     
 def display_average_spent(bills):
-    #bills = bills[int(input("start range")) <= bills['Month'] <= int(input("end range"))]
-    billstime = bills.loc[(bills['Month'] >= int(input("Start Month")))]
-    billstime = billstime.loc[(billstime['Month'] <= int(input("End Month")))]
+    billstime = bills.loc[(bills['Month'] >= int(input("Start Month ")))]
+    billstime = billstime.loc[(billstime['Month'] <= int(input("End Month ")))]
     print("the average bill cost between these months is: ", billstime.sort_values(by='Period')['Value'].mean())
+    
+def avg_time_between_bills(bills):
+    bills = bills.sort_values(by='Period')
+    print("Avg time between a bill is: ",(bills['Period'].diff().sum().days)/(bills['Company'].count()), "bills")
 
 #def get_visualisations(bills):
  #   my_colors = list(['k', 'm', 'b', 'y'])
@@ -94,6 +97,9 @@ def process_choice(bills):
                 elif choice2 == 'd':
                     display_sortedbydate(bills)
                     display_average_spent(bills)
+                    break
+                elif choice2 == 'e':
+                    avg_time_between_bills(bills)
                     break
                 #elif choice2 == 'd':
                  #   get_visualisations(bills)
