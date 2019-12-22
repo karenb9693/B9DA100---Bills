@@ -1,7 +1,8 @@
 
 import pandas as pd 
-#import seaborn as sns
+import seaborn as sns
 from collections import Counter
+from writebills import get_newbill
 
 def read_bills():
     bills = pd.read_csv('bills.csv', names=["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"])
@@ -10,10 +11,8 @@ def read_bills():
     bills["Period"] = pd.to_datetime(bills['Period'])
     return bills
  
-#def write_bills(bills):
- #   bill_file = open('bills.csv', 'w')
-  #  for bill in bills:
-   #     bill_file.write(', '.join(bill) + '\n')
+def write_bills():
+    get_newbill()
 
 def get_message():
     return 'Hello, Welcome to the Bill Management Company\n' + \
@@ -38,9 +37,11 @@ def display_submenu():
     
 def display_unique_companies(bills):
     print('# of unique companies:', bills['Company'].nunique())
+    return bills['Company'].nunique()
 
 def display_bill_count(bills):
     print('# of bills in file:', bills['Company'].count())
+    return bills['Company'].count()
 
 def display_sortedbydate(bills):
     print(bills.sort_values(by='Period'))
@@ -59,13 +60,13 @@ def display_average_spent(bills):
     
 def avg_time_between_bills(bills):
     bills = bills.sort_values(by='Period')
-    print("Avg time between a bill is: ",(bills['Period'].diff().sum().days)/(bills['Company'].count()), "bills")
+    print("Avg time between a bill is: ",(bills['Period'].diff().sum().days)/(bills['Company'].count()), "days")
 
-#def get_visualisations(bills):
- #   my_colors = list(['k', 'm', 'b', 'y'])
-  #  bills['Company'].value_counts().plot.barh(color=my_colors).set_title("Count of bills per customer")
-   # sns.boxplot(bills['Year'], bills['Value']).set_title("Value of bills per year")
-    #sns.countplot(x="Account Name", hue="Company", data=bills).set_title('Count of bills per customer and company')
+def get_visualisations(bills):
+    my_colors = list(['k', 'm', 'b', 'y'])
+    bills['Company'].value_counts().plot.barh(color=my_colors).set_title("Count of bills per customer")
+    sns.boxplot(bills['Year'], bills['Value']).set_title("Value of bills per year")
+    sns.countplot(x="Account Name", hue="Company", data=bills).set_title('Count of bills per customer and company')
     
 def view_bills(bills):
         print(bills)
@@ -75,9 +76,9 @@ def process_choice(bills):
     while choice != 'x':
         if choice == '1':
             view_bills(bills)
-        #elif choice == '2':
-         #   print("you can insert a new bill here:")
-          #  write_bills(bills)
+        elif choice == '2':
+            print("you can insert a new bill here:")
+            write_bills()
         elif choice == '3':
             display_submenu()
             choice2 = input('Please select requested report:')
@@ -101,9 +102,6 @@ def process_choice(bills):
                 elif choice2 == 'e':
                     avg_time_between_bills(bills)
                     break
-                #elif choice2 == 'd':
-                 #   get_visualisations(bills)
-                  #  break
         elif choice == '4':
             print('The terms of the billing management company are:')
         choice = input('Please enter an option:')
