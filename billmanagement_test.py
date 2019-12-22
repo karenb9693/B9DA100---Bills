@@ -2,10 +2,7 @@ import unittest
 #import pandas as pd 
 
 
-from billmanagement import read_bills, display_unique_companies, display_bill_count, get_message, get_submenu_message
-#, write_bills,get_message,display_unique_companies
-#from writebills import get_newbill
-    #get_value_CredDeb, get_display_info,get_creddeb_year
+from billmanagement import read_bills, display_unique_companies, display_bill_count, get_message, get_submenu_message, avg_time_between_bills
 
 class TestBillManagement(unittest.TestCase):
 
@@ -30,6 +27,10 @@ class TestBillManagement(unittest.TestCase):
     def test_display_bill_count(self):
         bills = read_bills()
         self.assertEqual(20, display_bill_count(bills))
+    
+    def test_avg_time_between_bills(self):
+        bills = read_bills()
+        self.assertEqual(57.2, avg_time_between_bills(bills))
 
 if __name__ == '__main__':
     unittest.main()

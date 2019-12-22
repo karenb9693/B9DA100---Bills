@@ -61,6 +61,7 @@ def display_average_spent(bills):
 def avg_time_between_bills(bills):
     bills = bills.sort_values(by='Period')
     print("Avg time between a bill is: ",(bills['Period'].diff().sum().days)/(bills['Company'].count()), "days")
+    return (bills['Period'].diff().sum().days)/(bills['Company'].count())
 
 def get_visualisations(bills):
     my_colors = list(['k', 'm', 'b', 'y'])

@@ -10,10 +10,10 @@ import pandas as pd
 from itertools import cycle, islice
 import seaborn as sns
 
-bills = pd.read_csv('bills1.csv', names=["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"])
+bills = pd.read_csv('bills.csv', names=["Company", "Account Name", "Year", "Month", "Day", "Value", "Type"])
 bills["Value"] = pd.to_numeric(bills["Value"])
 bills["Year"] = pd.to_numeric(bills["Year"])
-bills["Type"] = pd.to_str(bills["Type"])
+#bills["Type"] = pd.to_str(bills["Type"])
 
 sns.countplot(bills['Year'])
 #df = bills[(bills['Year']>=95) & (bills['Value']<1000)]
