@@ -1,58 +1,23 @@
 
 import pandas as pd 
 from collections import Counter
-import datetime as dt
+#from writebills import get_newbill
+#import datetime as dt
 
 def read_bills():
-    bills = pd.read_csv('bills1.csv', names=["Company", "Account Name", 
-                    "Year","Month", "Day", "Value", "Type"])    
-    bills["Value"] = pd.to_numeric(bills["Value"])
+    bills = pd.read_csv('bills.csv', names=["Company", "Account Name", "Year","Month", "Day", "Value", "Type"])   
+    bills["Value"] = pd.to_numeric(bills['Value'],errors='ignore')
     bills['Period'] = bills['Year'].astype(str) + "." + bills['Month'].astype(str)+"."+ bills['Day'].astype(str)
     bills["Period"] = pd.to_datetime(bills['Period'])
     return bills
- 
-def write_bills(bills,Year, Month, Day, Type):
-    billsnew = bills.append(pd.Series([input("Company: "), input("Account Name: " ), Year,Month,Day,Type], index=bills.columns), ignore_index=True)
-    billsnew.to_csv('bills.csv')
 
-def get_input_year(bills):
-    choice_year = int(input("Enter Year:"))    
-    if(choice_year > dt.datetime.now().year):
-        print("This is not a valid input")
-    else: 
-        Year = choice_year
-    return Year
-
-def get_input_month(bills):
-    choice_month = int(input("Enter Month:"))
-    if 1 <= choice_month <= 12:
-        Month = choice_month
-    else:
-        print("This is not a valid input")
-    return Month
-
-def get_input_day(bills,Month,Year):
-    choice_day = int(input("Enter Day:"))
-    if Month == 2 & (1 <= choice_day <= 28):
-        Day = choice_day
-    elif (Month == 4 or Month == 6 or Month == 9 or Month == 11) & (1 <= choice_day <= 30):
-        Day = choice_day
-    elif (Year % 4 == 0 & Year % 100 != 0 & Year % 400 == 0) & (Month == 2) & (1 <= choice_day <= 29):
-        Day = choice_day
-    elif (Month == 1 or Month == 3 or Month == 5 or Month == 7 or Month == 8 or Month == 10 or Month == 11) & (1 <= choice_day <= 31):
-        Day = choice_day
-    else:
-        print("This is not a valid input")
-    return Day
-
-def get_input_type(bills):
-    choice_debcred = input("Enter 1 for credit.\nEnter 2 for debit.\n")
-    choice_debcred = int(choice_debcred)
-    if choice_debcred == 1: 
-        Type = " credit"
-    elif choice_debcred == 2: 
-        Type = " debit"
-    return Type
+#def write_bills(bills1):
+ #   #get_newbill()
+  #  billsnew = bills1.append(pd.Series([input("Company: "), input("Account Name: " ), input("Year: "),input("Month: "),
+   #                                       input("Day: "), input("value: ") ,input("Type: ")], index=bills1.columns), ignore_index=True)
+   # billsnew.to_csv('bills.csv')
+   # bills = pd.read_csv('bills.csv')   
+   # return bills
 
 def get_message():
     return 'Hello, Welcome to the Bill Management Company\n' + \
@@ -68,7 +33,6 @@ def display_menu():
 def display_submenu():
     print(get_submenu_message())
     
-#Function for getting the cred and debit total       
 def get_value_CredDeb(bills):
     print('The largest value of credit and debit bills is as follows:',bills.groupby('Type')['Value'].max())
    
@@ -101,16 +65,19 @@ def get_avg_time_between_bills(bills):
     #sns.countplot(x="Account Name", hue="Company", data=bills).set_title('Count of bills per customer and company')
     
 def view_bills(bills):
-        print(bills)
+    print(bills)
     
 def process_choice(bills):
     choice = input('Please enter an option:')
     while choice != 'x':
         if choice == '1':
             view_bills(bills)
-        elif choice == '2':
-            print("you can insert a new bill here:")
-            write_bills(bills)
+            #choice3 = input("do you wish to insert a new bill?")
+            #if choice3 == "1":
+            #    write_bills(bills)
+        #elif choice == '2':
+         #   print("you can insert a new bill here:")
+          #  write_bills(bills)
         elif choice == '3':
             display_submenu()
             choice2 = input('Please select requested report:')
@@ -138,14 +105,10 @@ def process_choice(bills):
         choice = input('Please enter an option:')
 
 def main():
-    bills = read_bills()
-    Year = get_input_year()
-    Month = get_input_month()
-    Day = get_input_day()
-    Type = get_input_type()
+    bills = read_bills
+   # bills = write_bills()
     display_menu()
     process_choice(bills)
-    write_bills(bills,Year, Month, Day,Type)
     
 if __name__ == '__main__':
     main()
