@@ -17,7 +17,7 @@ class TestBillManagement(unittest.TestCase):
         
     def test_get_submenu_message(self):
         self.assertEqual('The report options are as follows:' + \
-    '\nx: to go back to main menu\na: information about dataset\nb: credit vs debit \nc: companies \nd: bills sorted \ne average time between bills',
+    '\nx: to go back to main menu\na: count of bills/unique companies \nb: credit vs debit \nc: most popular companies \nd: bills sorted \ne: average spent \nf: average time between bill',
             get_submenu_message())
 
     def test_display_unique_companies(self):

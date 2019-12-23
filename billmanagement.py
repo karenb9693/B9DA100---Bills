@@ -20,7 +20,7 @@ def get_message():
 
 def get_submenu_message():
     return 'The report options are as follows:' + \
-    '\nx: to go back to main menu\na: count of bills/unique companies \nb: credit vs debit \nc: most popular companies \nd: bills sorted \ne average spent \nf average time between bill'
+    '\nx: Exit to main menu\na: Count of bills/companies \nb: Credit vs Debit \nc: Most popular \nd: Bills sorted \ne: Average spent \nf: Average time between bill'
         
 #Function for getting the cred and debit total       
 def get_value_CredDeb(bills):
