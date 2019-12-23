@@ -20,7 +20,7 @@ def get_message():
 
 def get_submenu_message():
     return 'The report options are as follows:' + \
-    '\nx: to go back to main menu\na: information about dataset\nb: credit vs debit \nc: companies \nd: bills sorted \ne average time between bills'
+    '\nx: to go back to main menu\na: count of bills/unique companies \nb: credit vs debit \nc: most popular companies \nd: bills sorted \ne average spent \nf average time between bill'
         
 #Function for getting the cred and debit total       
 def get_value_CredDeb(bills):
@@ -98,9 +98,11 @@ def process_choice(bills):
                     break
                 elif choice2 == 'd':
                     display_sortedbydate(bills)
-                    display_average_spent(bills)
                     break
                 elif choice2 == 'e':
+                    display_average_spent(bills)
+                    break
+                elif choice2 == 'f':
                     avg_time_between_bills(bills)
                     break
         elif choice == '4':
