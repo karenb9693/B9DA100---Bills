@@ -73,13 +73,15 @@ def view_bills(bills):
         print(bills)
     
 def process_choice(bills):
-    choice = input('Please enter an option:')
+    choice = input('Please enter an option: ')
     while choice != 'x':
         if choice == '1':
             view_bills(bills)
         elif choice == '2':
             print("you can insert a new bill here:")
+            bills.iloc[0:0]
             write_bills()
+            print("To provide an analysis including the new reports added you must exit and re-enter the program")
         elif choice == '3':
             display_submenu()
             choice2 = input('Please select requested report:')
@@ -107,7 +109,7 @@ def process_choice(bills):
                     break
         elif choice == '4':
             print('The terms of the billing management company are:')
-        choice = input('Please enter an option:')
+        choice = input('Please enter an option: ')
 
 def main():
     bills = read_bills()
