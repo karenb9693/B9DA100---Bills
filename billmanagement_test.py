@@ -3,7 +3,7 @@ import unittest
 
 
 from billmanagement import (read_bills, display_unique_companies, 
-display_bill_count, get_message, get_submenu_message, 
+display_bill_count, get_message, get_submenu_message, display_sortedbydate,
 avg_time_between_bills, get_terms_and_conditions)
 
 class TestBillManagement(unittest.TestCase):
@@ -28,6 +28,13 @@ class TestBillManagement(unittest.TestCase):
         self.assertEqual('1. All bills entered should be honest and accurate. \
         \n2. The Bills Management Co. take no responsibility for bills added incorrectyly',
         get_terms_and_conditions())
+
+    def test_display_sortedbydate(self):
+        bills = read_bills()
+        bills1 = display_sortedbydate(bills)
+        self.assertEqual('Tesco Mobile', bills1['Company'].values[0])
+        self.assertEqual('Karen Byrne', bills1['Account Name'].values[10])
+
 
     def test_display_unique_companies(self):
         bills = read_bills()
