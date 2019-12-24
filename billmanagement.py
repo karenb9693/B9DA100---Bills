@@ -51,6 +51,7 @@ def display_bill_count(bills):
 
 def display_sortedbydate(bills):
     print(bills.sort_values(by='Period'))
+    return bills.sort_values(by='Period')
 
 #Function to print comopany with most amount of bills
 def get_Companies(bills):
