@@ -137,7 +137,6 @@ def main():
     bills = read_bills()
     display_menu()
     process_choice(bills)
-    #write_bills(bills)
     
 if __name__ == '__main__':
     main()
