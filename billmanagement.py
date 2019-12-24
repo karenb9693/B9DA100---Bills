@@ -64,13 +64,13 @@ def display_average_spent(bills):
     billstime = bills.loc[(bills['Month'] >= int(input("Start Month ")))]
     billstime = billstime.loc[(billstime['Month'] <= int(input("End Month ")))]
     print("the average bill cost between these months is: ", \
-          billstime.sort_values(by='Period')['Value'].mean())
+          round(billstime.sort_values(by='Period')['Value'].mean()))
     
 def avg_time_between_bills(bills):
     bills = bills.sort_values(by='Period')
     print("Avg time between a bill is: ",\
-          (round(bills['Period'].diff().sum().days)/(bills['Company'].count())), "days")
-    return (bills['Period'].diff().sum().days)/(bills['Company'].count())
+          (round(bills['Period'].diff().sum().days/(bills['Company'].count()))), "days")
+    return (round(bills['Period'].diff().sum().days/(bills['Company'].count())))
 
 def get_visualisations(bills):
     my_colors = list(['k', 'm', 'b', 'y'])
@@ -81,8 +81,15 @@ def get_visualisations(bills):
     sns.countplot(x="Account Name", hue="Company", data=bills).\
     set_title('Count of bills per customer and company')
     
+def get_terms_and_conditions():
+    return '1. All bills entered should be honest and accurate. \
+        \n2. The Bills Management Co. take no responsibility for bills added incorrectyly'
+    
 def view_bills(bills):
-        print(bills)
+    print(bills)
+        
+def view_terms_and_conditions():
+    print(get_terms_and_conditions())
     
 def process_choice(bills):
     choice = input('Please enter an option: ')
@@ -121,7 +128,8 @@ def process_choice(bills):
                     avg_time_between_bills(bills)
                     break
         elif choice == '4':
-            print('The terms of the billing management company are:')
+            print('The terms of the billing management company are as follows:')
+            view_terms_and_conditions()
         choice = input('Please enter an option: ')
 
 def main():

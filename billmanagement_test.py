@@ -2,13 +2,15 @@ import unittest
 #import pandas as pd 
 
 
-from billmanagement import read_bills, display_unique_companies, display_bill_count, get_message, get_submenu_message, avg_time_between_bills
+from billmanagement import (read_bills, display_unique_companies, 
+display_bill_count, get_message, get_submenu_message, 
+avg_time_between_bills, get_terms_and_conditions)
 
 class TestBillManagement(unittest.TestCase):
 
     def test_read_bills(self):
         bills = read_bills()
-        self.assertEqual(20, len(bills))
+        self.assertEqual(43, len(bills))
 
     def test_get_message(self):
         self.assertEqual('Hello, Welcome to the Bill Management Company\n' + \
@@ -17,20 +19,27 @@ class TestBillManagement(unittest.TestCase):
         
     def test_get_submenu_message(self):
         self.assertEqual('The report options are as follows:' + \
-    '\nx: to go back to main menu\na: count of bills/unique companies \nb: credit vs debit \nc: most popular companies \nd: bills sorted \ne: average spent \nf: average time between bill',
+    '\nx: Exit to main menu\na: Count of bills/companies \nb: Credit vs Debit \
+    \nc: Most popular \nd: Bills sorted \ne: Average spent \
+    \nf: Average time between bill',
             get_submenu_message())
+        
+    def test_get_terms_and_conditions(self):
+        self.assertEqual('1. All bills entered should be honest and accurate. \
+        \n2. The Bills Management Co. take no responsibility for bills added incorrectyly',
+        get_terms_and_conditions())
 
     def test_display_unique_companies(self):
         bills = read_bills()
-        self.assertEqual(3, display_unique_companies(bills))
+        self.assertEqual(10, display_unique_companies(bills))
         
     def test_display_bill_count(self):
         bills = read_bills()
-        self.assertEqual(20, display_bill_count(bills))
+        self.assertEqual(43, display_bill_count(bills))
     
     def test_avg_time_between_bills(self):
         bills = read_bills()
-        self.assertEqual(57.2, avg_time_between_bills(bills))
+        self.assertEqual(439.0, avg_time_between_bills(bills))
 
 if __name__ == '__main__':
     unittest.main()
